@@ -21,6 +21,11 @@
     return dispatch_get_main_queue();
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(mail:(NSDictionary *)options
@@ -40,7 +45,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         bool *isHTML = NO;
         
         if (options[@"isHTML"]){
-            isHTML = YES;
+            isHTML = [options[@"isHTML"] boolValue];
         }
 
         if (options[@"body"]){
@@ -105,6 +110,18 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"application/zip";
             } else if ([attachmentType isEqualToString:@"text"]) {
                 mimeType = @"text/*";
+            } else if ([attachmentType isEqualToString:@"mp3"]) {
+                mimeType = @"audio/mpeg";
+            } else if ([attachmentType isEqualToString:@"wav"]) {
+                mimeType = @"audio/wav";
+            } else if ([attachmentType isEqualToString:@"aiff"]) {
+                mimeType = @"audio/aiff";
+            } else if ([attachmentType isEqualToString:@"flac"]) {
+                mimeType = @"audio/flac";
+            } else if ([attachmentType isEqualToString:@"ogg"]) {
+                mimeType = @"audio/ogg";
+            } else if ([attachmentType isEqualToString:@"xls"]) {
+                mimeType = @"application/vnd.ms-excel";     
             }
 
             // Add attachment
